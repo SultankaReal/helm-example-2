@@ -1,1 +1,1 @@
-# helm-example-2
+helm install chart-nursultan --generate-name

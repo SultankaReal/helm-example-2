@@ -1,0 +1,34 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app : {{ .Release.Name }}-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      project: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        project: {{ .Release.Name }}  # Service will look for those PODS Labels!!!
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-nginx
+        image: {{ .Values.container.image }}
+        resources:
+          limits:
+            cpu: 100
+          requests:
+            cpu: 100
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo $(date -u) >> /data/out.txt; sleep 5; done"]
+        volumeMounts:
+        - name: {{ .Values.containers.volumeMountsName }}
+          mountPath: {{ .Values.containers.volumeMountsMountPath }}
+      volumes:
+      - name: {{ .Values.containers.volumeMountsName }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.volumes.claimNameF }}
+

@@ -1,0 +1,21 @@
+# Default Values for my Helm Chart
+
+container:
+  image: nginx:1.14
+
+replicaCount: 2
+
+resourceQuotaName: object-counts
+
+storageClassName: yc-network-hdd
+
+pvcRequestStorage: 4Gi
+
+containers:
+  volumeMountsName: persistent-storage
+  volumeMountsMountPath: /data
+
+volumes:
+  claimName: pvc-dynamic
+  claimNameF: pvc-dynamic2
+    
